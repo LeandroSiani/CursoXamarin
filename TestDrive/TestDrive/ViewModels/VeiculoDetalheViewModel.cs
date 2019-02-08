@@ -3,15 +3,25 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows.Input;
 using TestDrive.Model;
+using Xamarin.Forms;
 
 namespace TestDrive.ViewModels
 {
     public class VeiculoDetalheViewModel : INotifyPropertyChanged
     {
-        public VeiculoDetalheViewModel(Veiculo veiculo)
+        public VeiculoDetalheViewModel()
+        {
+            
+        }
+        public VeiculoDetalheViewModel(Veiculo veiculo) : base()
         {
             this.Veiculo = veiculo;
+            ProximoCommand = new Command(() =>
+            {
+                MessagingCenter.Send<Veiculo>(veiculo, "Proximo");
+            });
         }
 
         public Veiculo Veiculo { get; set; }
@@ -97,5 +107,7 @@ namespace TestDrive.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
+        public ICommand ProximoCommand { get; set; }
     }
 }

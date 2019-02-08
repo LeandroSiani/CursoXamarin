@@ -13,18 +13,28 @@ namespace TestDrive.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class VeiculoDetalheView : ContentPage
 	{
-        public VeiculoDetalheViewModel viewModel { get; set; }
+        public VeiculoDetalheViewModel ViewModel { get; set; }        
 
         public VeiculoDetalheView (Veiculo veiculo)
 		{
-			InitializeComponent ();
-            this.viewModel = new VeiculoDetalheViewModel(veiculo);            
-            this.BindingContext = this.viewModel;
-		}
+			InitializeComponent ();            
+            this.ViewModel = new VeiculoDetalheViewModel(veiculo);
+            this.BindingContext = this.ViewModel;
+		}        
 
-        private void ButtonProximo_Clicked(object sender, EventArgs e)
+        protected override void OnAppearing()
         {
-            Navigation.PushAsync(new VeiculoAgendamentoView(this.viewModel.Veiculo));
+            base.OnAppearing();
+            MessagingCenter.Subscribe<Veiculo>(this, "Proximo", (msg) =>
+             {
+                 Navigation.PushAsync(new VeiculoAgendamentoView(msg));
+             });
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            MessagingCenter.Unsubscribe<Veiculo>(this, "Proximo");
         }
     }
 }

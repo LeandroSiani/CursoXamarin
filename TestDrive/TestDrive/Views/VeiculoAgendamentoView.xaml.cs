@@ -13,30 +13,42 @@ namespace TestDrive.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class VeiculoAgendamentoView : ContentPage
 	{
-        VeiculoAgendamentoViewModel viewModel;
+        public VeiculoAgendamentoViewModel ViewModel { get; set; }
+
         public VeiculoAgendamentoView (Veiculo veiculo)
 		{
 			InitializeComponent ();
-            this.viewModel = new VeiculoAgendamentoViewModel(veiculo);
-            this.BindingContext = this.viewModel;
+            this.ViewModel = new VeiculoAgendamentoViewModel(veiculo);
+            this.BindingContext = this.ViewModel;
         }
 
-        private void BtnAgendar_Clicked(object sender, EventArgs e)
+
+        protected override void OnAppearing()
         {
-            DisplayAlert("Agendamento",
-                String.Format("Veículo: {0}" + Environment.NewLine +
-                              "Nome : {1}" + Environment.NewLine +
-                              "Fone : {2}" + Environment.NewLine +
-                              "Email : {3}" + Environment.NewLine +
-                              "Data Agendamento : {4}" + Environment.NewLine +
-                              "Hora Agendamento : {5}" + Environment.NewLine,
-                              this.viewModel.Agendamento.Veiculo.Nome,
-                              this.viewModel.Agendamento.Nome,
-                              this.viewModel.Agendamento.Telefone,
-                              this.viewModel.Agendamento.Email,
-                              this.viewModel.Agendamento.DataAgendamento.ToString("dd/MM/yyyy"),
-                              this.viewModel.Agendamento.HoraAgendamento),
-                "Ok");
+            base.OnAppearing();
+            MessagingCenter.Subscribe<Agendamento>(this, "Agendar", (msg) =>
+              {
+                  DisplayAlert("Agendamento",
+                    String.Format("Veículo: {0}" + Environment.NewLine +
+                                  "Nome : {1}" + Environment.NewLine +
+                                  "Fone : {2}" + Environment.NewLine +
+                                  "Email : {3}" + Environment.NewLine +
+                                  "Data Agendamento : {4}" + Environment.NewLine +
+                                  "Hora Agendamento : {5}" + Environment.NewLine,
+                                  msg.Veiculo.Nome,
+                                  msg.Nome,
+                                  msg.Telefone,
+                                  msg.Email,
+                                  msg.DataAgendamento.ToString("dd/MM/yyyy"),
+                                  msg.HoraAgendamento),
+                    "Ok");
+              });
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            MessagingCenter.Unsubscribe<Agendamento>(this, "Agendar");
         }
     }
 }

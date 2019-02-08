@@ -1,9 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TestDrive.Views.VeiculoDetalheView"             
-             Title="{Binding Veiculo.Nome}">
-    
+             x:Class="TestDrive.Views.VeiculoDetalheView"
+             Title="{Binding Veiculo.Nome}">    
     <ContentPage.Content>
         <StackLayout Padding="25">
             <TableView Intent="Settings">
@@ -15,8 +14,8 @@
                         <TextCell Text="{Binding ValorTotal, Mode=TwoWay}"></TextCell>
                     </TableSection>
                 </TableRoot>
-            </TableView>                       
-            <Button x:Name="buttonProximo" Text="Próximo" Clicked="ButtonProximo_Clicked" VerticalOptions="End" Padding="10"></Button>
+            </TableView>
+            <Button x:Name="buttonProximo" Text="Próximo" Command="{Binding ProximoCommand}" VerticalOptions="End" Padding="10"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
