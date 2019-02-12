@@ -26,29 +26,34 @@ namespace TestDrive.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            MessagingCenter.Subscribe<Agendamento>(this, "Agendar", (msg) =>
+            MessagingCenter.Subscribe<Agendamento>(this, "Agendar", async (msg) =>
               {
-                  DisplayAlert("Agendamento",
-                    String.Format("Veículo: {0}" + Environment.NewLine +
-                                  "Nome : {1}" + Environment.NewLine +
-                                  "Fone : {2}" + Environment.NewLine +
-                                  "Email : {3}" + Environment.NewLine +
-                                  "Data Agendamento : {4}" + Environment.NewLine +
-                                  "Hora Agendamento : {5}" + Environment.NewLine,
-                                  msg.Veiculo.Nome,
-                                  msg.Nome,
-                                  msg.Telefone,
-                                  msg.Email,
-                                  msg.DataAgendamento.ToString("dd/MM/yyyy"),
-                                  msg.HoraAgendamento),
-                    "Ok");
+                  var confirma = await DisplayAlert("Salvar agendamento",
+                    "Deseja mesmo enviar o agendamento?",
+                    "Sim","Não");
+
+                  if (confirma)
+                  {
+                      this.ViewModel.SalvarAgendamento();
+                  }
               });
+            MessagingCenter.Subscribe<Agendamento>(this, "SucessoAgendamento", (msg) =>
+            {
+                DisplayAlert("Agendamento", "Agendamento salvo com sucesso!", "ok");
+            });
+
+            MessagingCenter.Subscribe<ArgumentException>(this, "FalhaAgendamento", (msg) =>
+            {
+                DisplayAlert("Agendamento", "Agendamento não foi salvo!", "ok");
+            });
         }
 
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
             MessagingCenter.Unsubscribe<Agendamento>(this, "Agendar");
+            MessagingCenter.Unsubscribe<Agendamento>(this, "SucessoAgendamento");
+            MessagingCenter.Unsubscribe<ArgumentException>(this, "FalhaAgendamento");
         }
     }
 }

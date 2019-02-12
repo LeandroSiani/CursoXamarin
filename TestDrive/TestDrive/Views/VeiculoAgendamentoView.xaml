@@ -12,9 +12,9 @@
         <StackLayout>
             <TableView Intent="Form">
             <TableSection Title="Seus dados">
-                    <EntryCell Label="Nome" Text="{Binding Agendamento.Nome, Mode=TwoWay}"></EntryCell>
-                    <EntryCell Label="Telefone" Text="{Binding Agendamento.Telefone, Mode=TwoWay}" Keyboard="Telephone"></EntryCell>
-                    <EntryCell Label="Email" Text="{Binding Agendamento.Email, Mode=TwoWay}" Keyboard="Email"></EntryCell>
+                    <EntryCell Label="Nome" Text="{Binding Nome, Mode=TwoWay}"></EntryCell>
+                    <EntryCell Label="Telefone" Text="{Binding Fone, Mode=TwoWay}" Keyboard="Telephone"></EntryCell>
+                    <EntryCell Label="Email" Text="{Binding Email, Mode=TwoWay}" Keyboard="Email"></EntryCell>
             </TableSection>
             <TableSection Title="Agendamento">
                 <ViewCell>

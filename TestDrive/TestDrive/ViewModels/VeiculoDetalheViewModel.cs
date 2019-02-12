@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace TestDrive.ViewModels
 {
-    public class VeiculoDetalheViewModel : INotifyPropertyChanged
+    public class VeiculoDetalheViewModel : BaseViewModel
     {
         public VeiculoDetalheViewModel()
         {
@@ -101,12 +101,7 @@ namespace TestDrive.ViewModels
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged([CallerMemberName]string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
+        
 
         public ICommand ProximoCommand { get; set; }
     }
